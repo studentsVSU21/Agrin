@@ -12,7 +12,7 @@
 [Miro](https://miro.com/app/dashboard/)
 [Trello](https://trello.com/b/3RnuP10h/agrin)
 ## Документация
-[ТЗ.pdf]()
+[ТЗ.pdf](https://github.com/studentsVSU21/Agrin/blob/master/Documents/Technical_task.pdf)
 
 [ТЗ.docx]()
 
