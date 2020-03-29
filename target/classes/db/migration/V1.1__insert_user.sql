@@ -1,1 +1,0 @@
-INSERT INTO AppUser(ROLE_USER, password, fio, email, phone_number) values ('USER', 'PASS', 'TEST', 'TEST', 'TEST');
