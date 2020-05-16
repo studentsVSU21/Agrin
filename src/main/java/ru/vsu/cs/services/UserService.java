@@ -23,15 +23,11 @@ public class UserService {
     }
 
     public User getUserById(Long userID) {
-
         LOG.debug("Sevice get user bu id ");
 
         Optional<User> user = userRepository.findById(userID);
-
         LOG.debug("User : {}" , user.get() );
-
         return user.get();
-
     }
 
 
