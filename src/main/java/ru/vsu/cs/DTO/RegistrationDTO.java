@@ -5,7 +5,7 @@ public class RegistrationDTO {
     private String password;
     private String fio;
     private String email;
-    private String phone_number;
+    private String phoneNumber;
 
     public RegistrationDTO() {
     }
@@ -14,7 +14,7 @@ public class RegistrationDTO {
         this.password = password;
         this.fio = fio;
         this.email = email;
-        this.phone_number = phone_number;
+        this.phoneNumber = phone_number;
     }
 
     public String getPassword() {
@@ -41,12 +41,12 @@ public class RegistrationDTO {
         this.email = email;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phone_number) {
+        this.phoneNumber = phone_number;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class RegistrationDTO {
                 "password='" + password + '\'' +
                 ", fio='" + fio + '\'' +
                 ", email='" + email + '\'' +
-                ", phone_number='" + phone_number + '\'' +
+                ", phone_number='" + phoneNumber + '\'' +
                 '}';
     }
 }

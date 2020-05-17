@@ -12,7 +12,6 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     private UserRepository userRepository;

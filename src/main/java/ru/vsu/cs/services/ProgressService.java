@@ -33,9 +33,12 @@ public class ProgressService {
 
         Optional<Progress> progress = progressRepository.findById(progressID);
 
-        LOG.debug("Progress : {}" , progress.get());
+        if (progress.isPresent()) {
+            LOG.debug("Progress : {}", progress.get());
 
-        return progress.get();
+            return progress.get();
+        }
+        return null;
     }
 
 }
