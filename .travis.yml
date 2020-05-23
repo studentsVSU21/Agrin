@@ -1,14 +1,7 @@
 language: java
+
 jdk:
-  -openjdk11
-
-
-services:
-  - postgresql
-
-cache:
-  directories:
-    - $HOME/.m2
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  oraclejdk8
+dist: trusty
+sudo:
+  required
