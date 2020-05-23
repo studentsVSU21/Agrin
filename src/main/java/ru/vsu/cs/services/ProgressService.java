@@ -20,14 +20,13 @@ public class ProgressService {
 
     @Autowired
     public ProgressService(
-            ProgressRepository progressRepository
-    )
+            ProgressRepository progressRepository)
     {
         this.progressRepository = progressRepository;
     }
 
 
-    public Progress getProgressByID (Long progressID) {
+    public Progress getProgressByID(Long progressID) {
 
         LOG.debug("Service get Progress by ID");
 

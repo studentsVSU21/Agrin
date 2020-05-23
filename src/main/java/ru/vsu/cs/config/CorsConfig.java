@@ -1,5 +1,7 @@
 package ru.vsu.cs.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -11,10 +13,13 @@ import java.util.Arrays;
 @Configuration
 public class CorsConfig {
 
+    private final Logger LOG = LoggerFactory.getLogger(CorsConfig.class);
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+        LOG.debug("cors");
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://localhost:8080.com"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

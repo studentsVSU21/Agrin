@@ -29,7 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .cors(Customizer.withDefaults())
                 .addFilterAfter(buildTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()//.antMatchers("/user/**").permitAll()
                 .antMatchers("/progress/**").hasAuthority("USER")

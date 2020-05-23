@@ -52,6 +52,7 @@ public class UserController {
         return user;
     }
 
+    @CrossOrigin
     @PostMapping("/registration")
     public ResponseRegistration registration(@RequestBody RegistrationDTO registration, final HttpServletResponse resp) {
         LOG.debug("LOG : {}", registration);
