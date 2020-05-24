@@ -15,23 +15,20 @@ public class Progress{
     @Column(name = "Progress_ID")
     private Long progressID;
 
-
-    @Column(name = "date_start")
-    @NotNull
+    @Column(name = "date_start", columnDefinition = "DATE default null")
     private LocalDate dateStart;
 
-    @NotNull
-    @Column(name="date_end")
+    @Column(name="date_end", columnDefinition = "DATE default null")
     private LocalDate dateEnd;
-
 
     @NotNull
     @Column(name = "processed_area")
     private Double processedArea;
 
     @NotNull
-    @Column(name = "status")
-    private String status;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "status")
+    private Status status;
 
     public Progress() {
     }
@@ -68,11 +65,11 @@ public class Progress{
         this.processedArea = processedArea;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -83,10 +80,9 @@ public class Progress{
                 ", dateStart=" + dateStart +
                 ", dateEnd=" + dateEnd +
                 ", processedArea=" + processedArea +
-                ", status='" + status + '\'' +
+                ", status=" + status +
                 '}';
     }
-
 
     @Override
     public boolean equals(Object o) {

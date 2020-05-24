@@ -1,0 +1,1 @@
+alter table app_order drop constraint progress_fk;

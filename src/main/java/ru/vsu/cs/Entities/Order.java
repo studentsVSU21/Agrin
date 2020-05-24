@@ -15,29 +15,45 @@ public class Order {
     @Column(name = "Progress_ID")
     private Long id;
 
-    @Column(name = "phone_number")
-    @NotNull
-    private String phone;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    @Column(name = "email")
-    @NotNull
-    private String email;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "region_id")
+    private Region region;
 
     @Column(name = "area")
     private double area;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "progress_id")
+    @JoinColumn(name = "progress_id", columnDefinition = "bigint default null")
     private Progress progress;
 
     public Order() {
     }
 
-    public Order(String phone, String email, double area, Progress progress) {
-        this.phone = phone;
-        this.email = email;
+    public Order(Customer customer, Region region, double area, Progress progress) {
+        this.customer = customer;
+        this.region = region;
         this.area = area;
         this.progress = progress;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
     }
 
     public Long getId() {
@@ -48,21 +64,6 @@ public class Order {
         this.id = id;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public double getArea() {
         return area;
@@ -84,8 +85,8 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
+                ", customer=" + customer +
+                ", region=" + region +
                 ", area=" + area +
                 ", progress=" + progress +
                 '}';
@@ -98,13 +99,13 @@ public class Order {
         Order order = (Order) o;
         return Double.compare(order.getArea(), getArea()) == 0 &&
                 Objects.equals(getId(), order.getId()) &&
-                Objects.equals(getPhone(), order.getPhone()) &&
-                Objects.equals(getEmail(), order.getEmail()) &&
+                Objects.equals(getCustomer(), order.getCustomer()) &&
+                Objects.equals(getRegion(), order.getRegion()) &&
                 Objects.equals(getProgress(), order.getProgress());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getPhone(), getEmail(), getArea(), getProgress());
+        return Objects.hash(getId(), getCustomer(), getRegion(), getArea(), getProgress());
     }
 }

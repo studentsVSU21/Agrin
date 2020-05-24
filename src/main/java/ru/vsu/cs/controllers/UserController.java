@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.vsu.cs.CustomExceptions.EmailBusy;
 import ru.vsu.cs.CustomExceptions.FailureAuthenticate;
 import ru.vsu.cs.DTO.AuthDTO;
+import ru.vsu.cs.DTO.OrderDTO;
 import ru.vsu.cs.DTO.RegistrationDTO;
 import ru.vsu.cs.DTO.ResponseRegistration;
 import ru.vsu.cs.Entities.User;
@@ -40,6 +41,7 @@ public class UserController {
     }
 
     @GetMapping("/item/{id}")
+    @CrossOrigin(origins = {"http://localhost:4200"})
     public User getUserById(@PathVariable(value = "id") Long id) {
         LOG.debug("Controller : get User by ID");
         LOG.debug("Controller : get User : {}", SecurityContextHolder.getContext().getAuthentication().getDetails());
@@ -52,8 +54,8 @@ public class UserController {
         return user;
     }
 
-    @CrossOrigin
     @PostMapping("/registration")
+    @CrossOrigin(origins = {"http://localhost:4200"})
     public ResponseRegistration registration(@RequestBody RegistrationDTO registration, final HttpServletResponse resp) {
         LOG.debug("LOG : {}", registration);
         ResponseRegistration respBody = new ResponseRegistration();

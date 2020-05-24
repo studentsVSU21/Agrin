@@ -3,12 +3,11 @@ package ru.vsu.cs.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.vsu.cs.Entities.Region;
 import ru.vsu.cs.services.RegionService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 
 @RestController
@@ -19,6 +18,13 @@ public class RegionController {
 
     private RegionService regionService;
 
+    @ModelAttribute
+    public void setResponseHeader(HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        response.setHeader("Access-Control-Allow-Methods" , "GET, PUT, POST, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+    }
+
     @Autowired
     public RegionController(
         RegionService regionService
@@ -27,8 +33,8 @@ public class RegionController {
     }
 
     @GetMapping("/list")
+    @ResponseBody
     public Collection<Region> getRegions(){
         return regionService.getRegions();
     }
-
 }
