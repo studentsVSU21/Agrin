@@ -10,10 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.cs.CustomExceptions.EmailBusy;
 import ru.vsu.cs.CustomExceptions.FailureAuthenticate;
-import ru.vsu.cs.DTO.AuthDTO;
-import ru.vsu.cs.DTO.OrderDTO;
-import ru.vsu.cs.DTO.RegistrationDTO;
-import ru.vsu.cs.DTO.ResponseRegistration;
+import ru.vsu.cs.DTO.*;
 import ru.vsu.cs.Entities.User;
 import ru.vsu.cs.services.AuthenticatinService;
 import ru.vsu.cs.services.RegistrationService;
@@ -72,6 +69,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
+    @CrossOrigin(origins = {"http://localhost:4200"})
     public void authUser(@RequestBody AuthDTO auth, final HttpServletResponse resp) {
         LOG.debug("LOG2 : {}", auth);
         try {
@@ -82,5 +80,11 @@ public class UserController {
             resp.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Error");
             resp.setHeader("Error", "invalid parametrs");
         }
+    }
+
+    @GetMapping("/role")
+    @CrossOrigin
+    public RoleResponse getRole() {
+        return new RoleResponse(userService.getRoleUser());
     }
 }

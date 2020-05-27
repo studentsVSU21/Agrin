@@ -15,10 +15,15 @@ public class UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     private UserRepository userRepository;
+    private AuthDataService authDataService;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    public void setUserRepository(
+            UserRepository userRepository,
+            AuthDataService authDataService
+    ) {
         this.userRepository = userRepository;
+        this.authDataService = authDataService;
     }
 
     public User getUserById(Long userID) {
@@ -29,5 +34,15 @@ public class UserService {
         return user.get();
     }
 
+
+    public String getRoleUser(){
+        Optional<User> optionalUser = authDataService.getUserFromUserDetails();
+        StringBuilder role = new StringBuilder();
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            role.append(user.getRoleUser());
+        }
+        return role.toString();
+    }
 
 }

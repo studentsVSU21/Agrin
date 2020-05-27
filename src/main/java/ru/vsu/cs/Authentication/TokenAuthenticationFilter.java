@@ -1,6 +1,8 @@
 package ru.vsu.cs.Authentication;
 
 import com.google.common.net.HttpHeaders;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -24,6 +26,8 @@ import java.util.function.Predicate;
 
 public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
+    private final Logger LOG = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
+
     private final String BEARER = "Bearer ";
     private final Predicate<String> matchBearerLength = authValue -> authValue.length() > BEARER.length();
     private final Function<String, String> isolateBearerValue = authValue -> authValue.substring(BEARER.length());
@@ -41,7 +45,6 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
         super(defaultFilterProcessesUrl);
     }
 
-
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         SecurityContextHolder.getContext().setAuthentication(authResult);
@@ -51,6 +54,7 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
         String token = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
+        LOG.debug(token);
         if (Objects.isNull(token) || !matchBearerLength.test(token)) {
             throw new AuthenticationException("Not Token") {
             };
