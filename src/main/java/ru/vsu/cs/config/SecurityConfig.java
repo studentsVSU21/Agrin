@@ -3,6 +3,7 @@ package ru.vsu.cs.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -38,12 +39,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .cors()
                 .and()
-              //  .addFilterBefore(webFilterCors, CorsFilter.class)
                 .addFilterAfter(buildTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-            .authorizeRequests()//.antMatchers("/user/**").permitAll()
-                .antMatchers("/progress/**").hasAuthority("USER")
+            .authorizeRequests()
+                .antMatchers( "/order/new/orders", "/pesticide/manage/**").hasAuthority("ADMIN")
+                //.antMatchers(HttpMethod.POST, "/order/reject").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
         ;
     }

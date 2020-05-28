@@ -12,6 +12,10 @@ import ru.vsu.cs.Entities.Progress;
 import ru.vsu.cs.Entities.Region;
 import ru.vsu.cs.reposirories.OrderRepository;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Optional;
+
 @Service
 public class OrderService {
     private final Logger LOG = LoggerFactory.getLogger(OrderService.class);
@@ -51,4 +55,30 @@ public class OrderService {
         orderRepository.save(order);
         LOG.debug("Order : {}", order);
     }
+
+    public Collection<Order> getNewOrder() throws NotFoundById {
+        Collection<Order> orders = new LinkedList<>();
+        for (Progress progress : progressService.getNewProgress()) {
+            LOG.debug("progress : {}", progress);
+            Optional<Order> optionalOrder = orderRepository.findOrderByProgress(progress);
+            if (!optionalOrder.isPresent()){
+                LOG.debug("Not Found order by progress");
+                continue;
+            }
+
+            LOG.debug("check");
+            orders.add(optionalOrder.get());
+        }
+        return orders;
+     }
+
+     public void rejectOrder(Long orderId) throws NotFoundById{
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (!optionalOrder.isPresent()) {
+            throw new NotFoundById("order");
+        }
+        Order order = optionalOrder.get();
+        Progress progress = order.getProgress();
+        progressService.assumeStatusRejected(progress);
+     }
 }

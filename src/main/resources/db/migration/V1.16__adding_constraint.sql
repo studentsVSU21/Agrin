@@ -1,0 +1,1 @@
+ALTER TABLE Pesticide_In_Order ADD CONSTRAINT Pesticide_In_Order_fk0 FOREIGN KEY (Pesticide_ID) REFERENCES Pesticide(id);

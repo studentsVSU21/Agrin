@@ -49,6 +49,7 @@ public class TokenAuthenticationManager implements AuthenticationManager {
                     auth.setPrincipal(
                             new User(userName,"null", authorities)
                     );
+                    LOG.debug("Authorities : {}", authorities);
                     auth.setAuthorities(authorities);
                     return (Authentication) auth;
                 } catch (ParseException e) {

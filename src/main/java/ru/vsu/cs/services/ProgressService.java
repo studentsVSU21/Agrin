@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import ru.vsu.cs.CustomExceptions.NotFoundById;
 import ru.vsu.cs.Entities.Progress;
+import ru.vsu.cs.Entities.Status;
 import ru.vsu.cs.reposirories.ProgressRepository;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -56,4 +58,14 @@ public class ProgressService {
         return null;
     }
 
+    public Collection<Progress> getNewProgress() throws NotFoundById{
+        Status status = statusService.getStatusById(1L);
+        return progressRepository.findAllByStatus(status);
+    }
+
+    public void assumeStatusRejected(Progress progress) throws NotFoundById {
+        Status status = statusService.getStatusById(4L);
+        progress.setStatus(status);
+        progressRepository.save(progress);
+    }
 }

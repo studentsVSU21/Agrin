@@ -24,8 +24,8 @@ public class CustomerService {
     public Customer addCustomer(CustomerDTO customerDTO) {
         Customer customer = new Customer();
         customer.setFio(customerDTO.getFio());
-        customer.setEmail(customerDTO.getPhone());
-        customer.setPhoneNumber(customerDTO.getMail());
+        customer.setEmail(customerDTO.getMail());
+        customer.setPhoneNumber(customerDTO.getPhone());
         customerRepository.save(customer);
         LOG.debug("customer : {}", customer);
         return customer;

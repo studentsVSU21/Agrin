@@ -6,13 +6,13 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Progress")
+@Table(name = "app_progress")
 public class Progress{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "progress_id_generator")
     @SequenceGenerator(name = "progress_id_generator", sequenceName = "progress_id_seq", allocationSize = 1)
-    @Column(name = "Progress_ID")
+    @Column(name = "progress_id")
     private Long progressID;
 
     @Column(name = "date_start", columnDefinition = "DATE default null")
@@ -31,6 +31,13 @@ public class Progress{
     private Status status;
 
     public Progress() {
+    }
+
+    public Progress(LocalDate dateStart, LocalDate dateEnd, @NotNull Double processedArea, @NotNull Status status) {
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.processedArea = processedArea;
+        this.status = status;
     }
 
     public Long getProgressID() {

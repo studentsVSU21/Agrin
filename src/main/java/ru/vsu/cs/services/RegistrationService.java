@@ -37,12 +37,13 @@ public class RegistrationService {
         user.setEmail(registrationDTO.getEmail());
         user.setFio(registrationDTO.getFio());
         user.setPhoneNumber(registrationDTO.getPhoneNumber());
-        user.setRoleUser("ADMIN");
+        user.setRoleUser("USER");
         LOG.debug("crypt : {}", bCryptPasswordEncoder);
         bCryptPasswordEncoder = new BCryptPasswordEncoder(16);
         LOG.debug("Password : {}", user.getPassword());
         user.setPassword(bCryptPasswordEncoder.encode(registrationDTO.getPassword()));
-        userRepository.save(user);
+        LOG.debug("Password : {}", user.getPassword());
+ //       userRepository.save(user);
     }
 
 }

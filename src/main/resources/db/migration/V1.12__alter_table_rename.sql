@@ -1,0 +1,1 @@
+alter table progress rename to app_progress;

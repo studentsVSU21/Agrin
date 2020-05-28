@@ -1,0 +1,71 @@
+package ru.vsu.cs.DTO;
+
+import ru.vsu.cs.Entities.Customer;
+import ru.vsu.cs.Entities.Region;
+
+import java.util.Objects;
+
+public class NewOrderDTO {
+    private Long id;
+    private Customer customer;
+    private Region region;
+    private double area;
+
+    public NewOrderDTO() {
+    }
+
+    public NewOrderDTO(Long id, Customer customer, Region region, double area) {
+        this.id = id;
+        this.customer = customer;
+        this.region = region;
+        this.area = area;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
+    public double getArea() {
+        return area;
+    }
+
+    public void setArea(double area) {
+        this.area = area;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NewOrderDTO that = (NewOrderDTO) o;
+        return Double.compare(that.getArea(), getArea()) == 0 &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getCustomer(), that.getCustomer()) &&
+                Objects.equals(getRegion(), that.getRegion());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getCustomer(), getRegion(), getArea());
+    }
+}

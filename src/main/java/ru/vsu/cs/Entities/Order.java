@@ -12,7 +12,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_generator")
     @SequenceGenerator(name = "order_id_generator", sequenceName = "order_id_seq", allocationSize = 1)
-    @Column(name = "Progress_ID")
+    @Column(name = "order_id")
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -26,8 +26,8 @@ public class Order {
     @Column(name = "area")
     private double area;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "progress_id", columnDefinition = "bigint default null")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "progress_id")
     private Progress progress;
 
     public Order() {
