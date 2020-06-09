@@ -10,13 +10,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.vsu.cs.CustomExceptions.EmailBusy;
 import ru.vsu.cs.CustomExceptions.FailureAuthenticate;
+import ru.vsu.cs.CustomExceptions.NotFoundById;
 import ru.vsu.cs.DTO.*;
+import ru.vsu.cs.DTO.mappers.InfoUserMapper;
 import ru.vsu.cs.Entities.User;
+import ru.vsu.cs.services.AuthDataService;
 import ru.vsu.cs.services.AuthenticatinService;
 import ru.vsu.cs.services.RegistrationService;
 import ru.vsu.cs.services.UserService;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -27,18 +31,24 @@ public class UserController {
     private UserService userService;
     private AuthenticatinService authenticatinService;
     private RegistrationService registrationService;
+    private AuthDataService authDataService;
+    private InfoUserMapper infoUserMapper;
 
     @Autowired
     public UserController(UserService userService,
                           AuthenticatinService authenticatinService,
-                          RegistrationService registrationService) {
+                          RegistrationService registrationService,
+                          AuthDataService authDataService,
+                          InfoUserMapper infoUserMapper) {
         this.userService = userService;
         this.authenticatinService = authenticatinService;
         this.registrationService = registrationService;
+        this.authDataService = authDataService;
+        this.infoUserMapper = infoUserMapper;
     }
 
     @GetMapping("/item/{id}")
-    @CrossOrigin(origins = {"http://localhost:4200"})
+    @CrossOrigin
     public User getUserById(@PathVariable(value = "id") Long id) {
         LOG.debug("Controller : get User by ID");
         LOG.debug("Controller : get User : {}", SecurityContextHolder.getContext().getAuthentication().getDetails());
@@ -52,7 +62,7 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    @CrossOrigin(origins = {"http://localhost:4200"})
+    @CrossOrigin
     public ResponseRegistration registration(@RequestBody RegistrationDTO registration, final HttpServletResponse resp) {
         LOG.debug("LOG : {}", registration);
         ResponseRegistration respBody = new ResponseRegistration();
@@ -68,8 +78,25 @@ public class UserController {
         }
     }
 
+    @PostMapping("/registration/operator")
+    @CrossOrigin
+    public ResponseRegistration registrationOperator(@RequestBody RegistrationDTO registration) {
+        LOG.debug("LOG : {}", registration);
+        ResponseRegistration respBody = new ResponseRegistration();
+        try {
+            registrationService.registerOperator(registration);
+            respBody.setStatus("success");
+            return respBody;
+        }
+        catch (EmailBusy ex) {
+            respBody.setStatus("failure");
+            respBody.setMessage(ex.getMessage());
+            return respBody;
+        }
+    }
+
     @PostMapping("/login")
-    @CrossOrigin(origins = {"http://localhost:4200"})
+    @CrossOrigin
     public void authUser(@RequestBody AuthDTO auth, final HttpServletResponse resp) {
         LOG.debug("LOG2 : {}", auth);
         try {
@@ -86,5 +113,25 @@ public class UserController {
     @CrossOrigin
     public RoleResponse getRole() {
         return new RoleResponse(userService.getRoleUser());
+    }
+
+    @GetMapping("/info")
+    @CrossOrigin
+    public InfoUserDTO getInfoForUser() {
+        Optional<User> optionalUser = authDataService.getUserFromUserDetails();
+        return optionalUser.map(infoUserMapper::toDto).orElse(null);
+    }
+
+    @PostMapping("/refactor")
+    @CrossOrigin
+    public StatusResponse refactorInfoUser(@RequestBody InfoUserDTO infoUserDTO) {
+        LOG.debug("refactor");
+        try {
+            userService.refactorUser(infoUserDTO);
+            return StatusResponse.successResponse();
+        } catch (NotFoundById notFoundById) {
+            LOG.error("Dont found user", notFoundById);
+            return StatusResponse.failureResponse();
+        }
     }
 }

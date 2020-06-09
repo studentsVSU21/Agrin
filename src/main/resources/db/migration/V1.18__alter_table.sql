@@ -1,0 +1,1 @@
+alter table expense_report add column volume numeric not null;

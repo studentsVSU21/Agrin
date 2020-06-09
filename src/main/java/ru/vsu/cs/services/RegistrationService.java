@@ -28,22 +28,33 @@ public class RegistrationService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public void register(RegistrationDTO registrationDTO) throws EmailBusy {
-        Optional<User> optionalUser =  userRepository.findByEmail(registrationDTO.getEmail());
+    public void checkUserByEmail(String email) throws EmailBusy {
+        Optional<User> optionalUser =  userRepository.findByEmail(email);
         if (optionalUser.isPresent()) {
             throw new EmailBusy("Email is busy");
         }
+    }
+
+    public void register(RegistrationDTO registrationDTO) throws EmailBusy {
+        registrationUser(registrationDTO, "USER");
+    }
+
+    public void registerOperator(RegistrationDTO registrationDTO) throws EmailBusy {
+        registrationUser(registrationDTO, "OPERATOR");
+    }
+
+    public void registrationUser(RegistrationDTO registrationDTO, String ROLE ) throws EmailBusy {
+        checkUserByEmail(registrationDTO.getEmail());
         User user = new User();
         user.setEmail(registrationDTO.getEmail());
         user.setFio(registrationDTO.getFio());
         user.setPhoneNumber(registrationDTO.getPhoneNumber());
-        user.setRoleUser("USER");
+        user.setRoleUser("OPERATOR");
         LOG.debug("crypt : {}", bCryptPasswordEncoder);
         bCryptPasswordEncoder = new BCryptPasswordEncoder(16);
         LOG.debug("Password : {}", user.getPassword());
         user.setPassword(bCryptPasswordEncoder.encode(registrationDTO.getPassword()));
         LOG.debug("Password : {}", user.getPassword());
- //       userRepository.save(user);
+        userRepository.save(user);
     }
-
 }

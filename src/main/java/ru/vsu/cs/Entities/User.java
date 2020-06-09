@@ -1,6 +1,7 @@
 package ru.vsu.cs.Entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -33,6 +34,13 @@ public class User {
 
     public User() {
     }
+
+    @OneToMany
+    @JoinTable(name = "user_orders",
+                joinColumns = {@JoinColumn(name = "user_id")},
+                inverseJoinColumns = {@JoinColumn(name = "order_id")}
+                )
+    private Collection<Order> orders;
 
 
     public Long getUserId() {
@@ -79,6 +87,14 @@ public class User {
         return phoneNumber;
     }
 
+    public Collection<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Collection<Order> orders) {
+        this.orders = orders;
+    }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
@@ -92,6 +108,7 @@ public class User {
                 ", fio='" + fio + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", orders=" + orders +
                 '}';
     }
 

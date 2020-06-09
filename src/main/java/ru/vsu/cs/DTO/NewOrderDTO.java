@@ -3,6 +3,7 @@ package ru.vsu.cs.DTO;
 import ru.vsu.cs.Entities.Customer;
 import ru.vsu.cs.Entities.Region;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class NewOrderDTO {
@@ -10,15 +11,25 @@ public class NewOrderDTO {
     private Customer customer;
     private Region region;
     private double area;
+    private LocalDate date;
 
     public NewOrderDTO() {
     }
 
-    public NewOrderDTO(Long id, Customer customer, Region region, double area) {
+    public NewOrderDTO(Long id, Customer customer, Region region, double area, LocalDate date) {
         this.id = id;
         this.customer = customer;
         this.region = region;
         this.area = area;
+        this.date = date;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Long getId() {
@@ -54,6 +65,17 @@ public class NewOrderDTO {
     }
 
     @Override
+    public String toString() {
+        return "NewOrderDTO{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", region=" + region +
+                ", area=" + area +
+                ", date=" + date +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -61,11 +83,12 @@ public class NewOrderDTO {
         return Double.compare(that.getArea(), getArea()) == 0 &&
                 Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getCustomer(), that.getCustomer()) &&
-                Objects.equals(getRegion(), that.getRegion());
+                Objects.equals(getRegion(), that.getRegion()) &&
+                Objects.equals(getDate(), that.getDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getCustomer(), getRegion(), getArea());
+        return Objects.hash(getId(), getCustomer(), getRegion(), getArea(), getDate());
     }
 }

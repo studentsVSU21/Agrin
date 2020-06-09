@@ -32,9 +32,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/user/login",
                 "/user/registration",
                 "/order/custom/creation",
-                "/region/list");
+                "/region/list",
+                "/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**");
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,8 +49,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterAfter(buildTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
-                .antMatchers( "/order/new/orders", "/pesticide/manage/**").hasAuthority("ADMIN")
-                //.antMatchers(HttpMethod.POST, "/order/reject").hasAuthority("ADMIN")
+                .antMatchers(
+                        "/order/new/orders",
+                        "/pesticide/manage/**",
+                        "/order/confirm",
+                        "/user/registration/operator").hasAuthority("ADMIN")
+                .antMatchers(
+                        "/order/current",
+                        "order/change/process/area"
+                        ).hasAnyAuthority("ADMIN", "OPERATOR")
                 .anyRequest().authenticated()
         ;
     }

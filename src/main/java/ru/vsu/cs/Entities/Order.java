@@ -1,8 +1,7 @@
 package ru.vsu.cs.Entities;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -30,6 +29,13 @@ public class Order {
     @JoinColumn(name = "progress_id")
     private Progress progress;
 
+    @ManyToMany
+    @JoinTable(name = "pesticide_in_order",
+            joinColumns = {@JoinColumn(name = "order_id")},
+            inverseJoinColumns = {@JoinColumn(name = "pesticide_id")}
+    )
+    private Collection<Pesticide> pesticides;
+
     public Order() {
     }
 
@@ -46,6 +52,14 @@ public class Order {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Collection<Pesticide> getPesticides() {
+        return pesticides;
+    }
+
+    public void setPesticides(Collection<Pesticide> pesticides) {
+        this.pesticides = pesticides;
     }
 
     public Region getRegion() {
