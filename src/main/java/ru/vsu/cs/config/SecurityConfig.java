@@ -53,7 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/order/new/orders",
                         "/pesticide/manage/**",
                         "/order/confirm",
-                        "/user/registration/operator").hasAuthority("ADMIN")
+                        "/user/registration/operator",
+                        "/manager/**").hasAuthority("ADMIN")
                 .antMatchers(
                         "/order/current",
                         "order/change/process/area"

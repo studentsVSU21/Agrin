@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import ru.vsu.cs.CustomExceptions.DataNotValid;
 import ru.vsu.cs.CustomExceptions.FailureAuthenticate;
 import ru.vsu.cs.DTO.AuthDTO;
 import ru.vsu.cs.jwt.JwtService;
@@ -21,30 +22,32 @@ public class AuthenticatinService {
     private UserDetailsServiceImpl userDetailsService;
     private JwtService jwtService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BlackListService blackListService;
 
     @Autowired
     public AuthenticatinService(
             UserDetailsServiceImpl userDetailsService,
             JwtService jwtService,
-            BCryptPasswordEncoder bCryptPasswordEncoder
+            BCryptPasswordEncoder bCryptPasswordEncoder,
+            BlackListService blackListService
     )
     {
         this.userDetailsService = userDetailsService;
         this.jwtService = jwtService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.blackListService = blackListService;
     }
     
-    public String authenticate(AuthDTO data) throws FailureAuthenticate {
+    public String authenticate(AuthDTO data) throws FailureAuthenticate, DataNotValid {
         LOG.debug("Method authenticate");
         try {
             UserDetails details = userDetailsService.loadUserByUsername(data.getName());
+            blackListService.checkValidEmail(details.getUsername());
             LOG.debug("Details : {}" , details);
             LOG.debug("password Encoded : {}" , details.getPassword());
             LOG.debug("{}", bCryptPasswordEncoder);
             boolean comparison = bCryptPasswordEncoder.matches(data.getPassword(), details.getPassword());
-            boolean comparison2 = bCryptPasswordEncoder.matches(details.getPassword(), data.getPassword());
             LOG.debug("comparion : {}", comparison);
-            LOG.debug("comparin2 : {}", comparison2);
             if (!comparison) {
                 throw new FailureAuthenticate();
             }

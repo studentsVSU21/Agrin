@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.vsu.cs.CustomExceptions.DataNotValid;
 import ru.vsu.cs.CustomExceptions.ExcessVolume;
 import ru.vsu.cs.CustomExceptions.NotFoundById;
 import ru.vsu.cs.DTO.*;
@@ -46,16 +47,23 @@ public class OrderController {
 
     @PostMapping("/custom/creation")
     @CrossOrigin
-    public StatusResponse createOrder(@RequestBody OrderDTO order) {
+    public ResponseRegistration createOrder(@RequestBody OrderDTO order) {
         LOG.debug("order : {}", order);
+        ResponseRegistration responseRegistration = new ResponseRegistration();
         try {
             LOG.debug("Order : {}", order);
             orderService.createOrder(order);
-            return StatusResponse.successResponse();
+            responseRegistration.setStatus("success");
+            return responseRegistration;
         }
         catch (NotFoundById ex)
         {
-            return StatusResponse.failureResponse();
+            responseRegistration.setStatus("failure");
+            return responseRegistration;
+        } catch (DataNotValid dataNotValid) {
+            responseRegistration.setStatus("failure");
+            responseRegistration.setMessage("blackList");
+            return responseRegistration;
         }
     }
 
@@ -88,13 +96,20 @@ public class OrderController {
 
     @PostMapping("/user/create")
     @CrossOrigin
-    public StatusResponse addingOrder(@RequestBody OrderDTO order) {
+    public ResponseRegistration addingOrder(@RequestBody OrderDTO order) {
+        ResponseRegistration responseRegistration = new ResponseRegistration();
         try {
             orderService.createUserOrder(order);
-            return StatusResponse.successResponse();
-        } catch (NotFoundById notFoundById) {
-            LOG.error("Not found", notFoundById);
-            return StatusResponse.failureResponse();
+            responseRegistration.setStatus("success");
+            return responseRegistration;
+        }         catch (NotFoundById ex)
+        {
+            responseRegistration.setStatus("failure");
+            return responseRegistration;
+        } catch (DataNotValid dataNotValid) {
+            responseRegistration.setStatus("failure");
+            responseRegistration.setMessage("blackList");
+            return responseRegistration;
         }
     }
 

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.vsu.cs.CustomExceptions.DataNotValid;
 import ru.vsu.cs.CustomExceptions.ExcessVolume;
 import ru.vsu.cs.CustomExceptions.NotFoundById;
 import ru.vsu.cs.DTO.ChangeProcessAreaDTO;
@@ -29,6 +30,7 @@ public class OrderService {
     private AuthDataService authDataService;
     private UserService userService;
     private PesticideService pesticideService;
+    private BlackListService blackListService;
 
     @Autowired
     public OrderService(
@@ -38,7 +40,8 @@ public class OrderService {
         ProgressService progressService,
         AuthDataService authDataService,
         UserService userService,
-        PesticideService pesticideService)
+        PesticideService pesticideService,
+        BlackListService blackListService)
     {
         this.orderRepository = orderRepository;
         this.customerService = customerService;
@@ -47,10 +50,10 @@ public class OrderService {
         this.authDataService = authDataService;
         this.userService = userService;
         this.pesticideService = pesticideService;
+        this.blackListService = blackListService;
     }
 
-    public Order createOrder(OrderDTO orderDTO) throws NotFoundById
-    {
+    public Order createOrder(OrderDTO orderDTO) throws NotFoundById, DataNotValid {
         LOG.debug("Method create Order");
         Region region = regionService.findRegionByID(orderDTO.getRegionID());
         LOG.debug("Region : {}", region);
@@ -58,6 +61,8 @@ public class OrderService {
         LOG.debug("Customer : {}", customer);
         Order order = new Order();
         order.setArea(orderDTO.getArea());
+        blackListService.checkValidEmail(customer.getEmail());
+        blackListService.checkValidPhone(customer.getPhoneNumber());
         order.setCustomer(customer);
         order.setRegion(region);
         Progress progress = progressService.initProgress();
@@ -69,7 +74,7 @@ public class OrderService {
         return order;
     }
 
-    public void createUserOrder(OrderDTO orderDTO) throws NotFoundById {
+    public void createUserOrder(OrderDTO orderDTO) throws NotFoundById, DataNotValid {
         Optional<User> optionalUser = authDataService.getUserFromUserDetails();
         if (!optionalUser.isPresent()) {
             LOG.error("Not auth user");
@@ -201,5 +206,11 @@ public class OrderService {
         orderRepository.save(order);
         LOG.debug("Order : {}", order);
         userService.addOrderToUser(optionalUser.get(), order);
+    }
+
+    public void blockDataOrder(Long orderId) throws NotFoundById {
+        Order order = getOrder(orderId);
+        blackListService.blockUser(order.getCustomer().getEmail(), order.getCustomer().getPhoneNumber());
+        rejectOrder(orderId);
     }
 }

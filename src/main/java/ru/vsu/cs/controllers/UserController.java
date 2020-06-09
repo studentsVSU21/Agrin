@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import ru.vsu.cs.CustomExceptions.DataNotValid;
 import ru.vsu.cs.CustomExceptions.EmailBusy;
 import ru.vsu.cs.CustomExceptions.FailureAuthenticate;
 import ru.vsu.cs.CustomExceptions.NotFoundById;
@@ -106,6 +107,10 @@ public class UserController {
         catch (FailureAuthenticate ex) {
             resp.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Error");
             resp.setHeader("Error", "invalid parametrs");
+        }
+        catch (DataNotValid ex) {
+            resp.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Error");
+            resp.setHeader("Error", "BlackList");
         }
     }
 

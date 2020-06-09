@@ -49,7 +49,7 @@ public class RegistrationService {
         user.setEmail(registrationDTO.getEmail());
         user.setFio(registrationDTO.getFio());
         user.setPhoneNumber(registrationDTO.getPhoneNumber());
-        user.setRoleUser("OPERATOR");
+        user.setRoleUser(ROLE);
         LOG.debug("crypt : {}", bCryptPasswordEncoder);
         bCryptPasswordEncoder = new BCryptPasswordEncoder(16);
         LOG.debug("Password : {}", user.getPassword());

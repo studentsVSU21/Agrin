@@ -8,6 +8,7 @@ import ru.vsu.cs.CustomExceptions.NotFoundById;
 import ru.vsu.cs.DTO.InfoUserDTO;
 import ru.vsu.cs.Entities.Order;
 import ru.vsu.cs.Entities.User;
+import ru.vsu.cs.reposirories.BlackListRepository;
 import ru.vsu.cs.reposirories.UserRepository;
 
 import java.util.Optional;
@@ -19,14 +20,17 @@ public class UserService {
 
     private UserRepository userRepository;
     private AuthDataService authDataService;
+    private BlackListRepository blackListRepository;
 
     @Autowired
     public void setUserRepository(
             UserRepository userRepository,
-            AuthDataService authDataService
+            AuthDataService authDataService,
+            BlackListRepository blackListRepository
     ) {
         this.userRepository = userRepository;
         this.authDataService = authDataService;
+        this.blackListRepository = blackListRepository;
     }
 
     public User getUserById(Long userID) {
@@ -47,7 +51,6 @@ public class UserService {
         }
         return role.toString();
     }
-
 
     public boolean addOrderToUser(User user, Order order) {
         boolean res = user.getOrders().add(order);
