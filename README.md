@@ -12,6 +12,14 @@
 
 [ТЗ.docx](https://github.com/studentsVSU21/Agrin/blob/master/Documents/Technical_task.docx)
 
+[Курсовая работа.docx](https://github.com/studentsVSU21/Agrin/blob/master/Documents/Kursovaya_rabota.docx)
+
+[Курсовая работа.pdf](https://github.com/studentsVSU21/Agrin/blob/master/Documents/Kursovaya_rabota.pdf)
+
+[Отчет по ролям.docx](https://github.com/studentsVSU21/Agrin/blob/master/Documents/Отчет%20по%20ролям.docx)
+
+[Отчет по ролям.pdf](https://github.com/studentsVSU21/Agrin/blob/master/Documents/Отчет%20по%20ролям.pdf)
+
 [Swagger](http://agrin-env.eba-ndbbmd2r.us-east-1.elasticbeanstalk.com/swagger-ui.html)
 
 [Метрика](https://metrika.yandex.ru/dashboard?id=64754338)
