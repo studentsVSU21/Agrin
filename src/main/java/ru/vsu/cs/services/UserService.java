@@ -68,7 +68,7 @@ public class UserService {
         }
         User user = optionalUser.get();
         user.setFio(infoUserDTO.getFio());
-        user.setPhoneNumber(infoUserDTO.getEmail());
+        user.setPhoneNumber(infoUserDTO.getPhoneNumber());
         user.setEmail(infoUserDTO.getEmail());
         userRepository.save(user);
     }
