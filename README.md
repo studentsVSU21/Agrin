@@ -20,3 +20,7 @@
 
 [Видео](https://www.youtube.com/watch?v=J6QL6B5pn9Q)
 
+## Клиентская часть
+
+[Agrin-Angular](https://github.com/studentsVSU21/Agrin-Angular)
+
