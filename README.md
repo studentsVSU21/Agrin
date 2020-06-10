@@ -14,11 +14,13 @@
 
 [Swagger](http://agrin-env.eba-ndbbmd2r.us-east-1.elasticbeanstalk.com/swagger-ui.html)
 
-[Приложение](http://agrin-vsu.s3-website-us-east-1.amazonaws.com/)
-
 [Метрика](https://metrika.yandex.ru/dashboard?id=64754338)
 
 [Видео](https://www.youtube.com/watch?v=J6QL6B5pn9Q)
+
+## Развертывание
+
+[Приложение](http://agrin-vsu.s3-website-us-east-1.amazonaws.com/)
 
 ## Клиентская часть
 
