@@ -1,7 +1,7 @@
 # Agrin
 ### Обработка полей от вредителей с помощью квадрокоптеров
 #### Над проектом работают
-- Парамонов Павел 3 группа - PavelParamon
+- Парамонов Павел 3 группа - PavelParamon - Pave_69@mail.ru
 - Сигарев Алексей 3 группа - Sigarev Aleksei - sigarev.aleksey150@gmail.com
 ## Сервисы для работы
 [Miro](https://miro.com/app/board/o9J_kuhude8=/)
@@ -24,7 +24,9 @@
 
 [Метрика](https://metrika.yandex.ru/dashboard?id=64754338)
 
-[Видео](https://www.youtube.com/watch?v=J6QL6B5pn9Q)
+[Видео. Демонстрация приложения](https://www.youtube.com/watch?v=J6QL6B5pn9Q)
+
+[Видео. Презентация] (https://youtu.be/_Hw3axpXywo)
 
 ## Развертывание
 
