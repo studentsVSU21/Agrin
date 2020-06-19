@@ -26,7 +26,7 @@
 
 [Видео. Демонстрация приложения](https://www.youtube.com/watch?v=J6QL6B5pn9Q)
 
-[Видео. Презентация] (https://youtu.be/_Hw3axpXywo)
+[Видео. Презентация](https://youtu.be/_Hw3axpXywo)
 
 ## Развертывание
 
