@@ -2,7 +2,7 @@
 ### Обработка полей от вредителей с помощью квадрокоптеров
 #### Над проектом работают
 - Парамонов Павел 3 группа - PavelParamon
-- Сигарев Алексей 3 группа - Sigarev Aleksei
+- Сигарев Алексей 3 группа - Sigarev Aleksei [sigarev.aleksey150@gmail.com]
 ## Сервисы для работы
 [Miro](https://miro.com/app/board/o9J_kuhude8=/)
 
